@@ -1,0 +1,29 @@
+---
+- name: Playbook to configure a basic jekyll site
+  hosts: jekyll-demo
+  gather_facts: true 
+  tasks:
+
+    - name: Refresh apt Cache
+      apt: update_cache=yes
+ 
+    - name: Install make
+      apt: name=make state=present 
+ 
+    - name: Install nodejs
+      apt: name=nodejs state=present
+
+    - name: Install ruby
+      apt: name=ruby-full state=present 
+
+    - name: Install Jekyll 
+      shell: gem install jekyll -v 2.5.3
+
+    - name: Create Blog Directory
+      file: path=/data01 state=directory mode=0755
+      
+    - name: Create the Site
+      shell: jekyll new /data01/myBlog 
+
+    - name: Run the Jekyll Service
+      shell: jekyll serve --source /data01/myBlog --destination /data01/myBlog/_site --detach --host $(hostname -I) 

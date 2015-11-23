@@ -1,0 +1,25 @@
+---
+- name: Playbook to create a basic jekyll site
+  hosts: localhost 
+  connection: local
+  gather_facts: true 
+  tasks:
+    - name: Create Jekyll Group
+      clc_group:
+        location: 'UC1'
+        name: 'Jekyll-demo'
+        state: present
+      register: clc_grp
+
+    - debug: var=clc_grp
+
+    - name: Create Jekyll Server
+      clc_server:
+        name: jekyll
+        template: ubuntu-14-64
+        location: 'UC1'
+        group: 'Jekyll-demo'
+        count: 1
+      register: clc_svr
+
+    - debug: var=clc_svr
