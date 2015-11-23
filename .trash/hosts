@@ -1,0 +1,2 @@
+[default]
+10.121.49.17 ansible_ssh_user=root ansible_ssh_pass=abc123\!$#

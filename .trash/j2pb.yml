@@ -1,0 +1,25 @@
+---
+- name: Playbook to create a basic jekyll site
+  hosts: UC1WFTCJEKYLL14 
+  gather_facts: false
+  tasks:
+    - name: Refresh apt Cache
+      apt: update_cache=yes
+ 
+    - name: Install make
+      apt: name=make state=present 
+ 
+    - name: Install nodejs
+      apt: name=nodejs state=present
+
+    - name: Install ruby
+      apt: name=ruby-full state=present 
+
+    - name: Install Jekyll 
+      gem: name=jekyll state=latest
+
+    - name: Create Blog Directory
+      file: path=/data01/myBlog state=directory mode=0755
+       
+    - name: Run the Jekyll Service
+      shell: jekyll serve --source /data01/myBlog --destination /data01/myBlog/_site --detach --host {{clc_svr.servers[0].ipaddress}} 
